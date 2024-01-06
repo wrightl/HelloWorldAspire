@@ -8,6 +8,11 @@ properties:
   environmentId: {{ .Env.AZURE_CONTAINER_APPS_ENVIRONMENT_ID }}
   configuration:
     activeRevisionsMode: single
+    dapr:
+      enabled: true
+      appId: apiservice
+      appProtocol: http
+      appPort: 8080
     ingress:
       external: true
       targetPort: 8080
