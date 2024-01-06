@@ -10,7 +10,7 @@ properties:
     activeRevisionsMode: single
     dapr:
       enabled: true
-      appId: apiservice
+      appId: webfrontend
       appProtocol: http
       appPort: 8080
     ingress:
