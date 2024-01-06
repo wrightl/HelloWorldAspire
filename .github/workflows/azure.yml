@@ -53,6 +53,11 @@ jobs:
               env:
                   AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
 
+            - name: Install aspire workload
+              run: |
+                  dotnet workload install aspire
+              shell: pwsh
+
             - name: Provision Infrastructure
               run: azd provision --no-prompt
               env:
