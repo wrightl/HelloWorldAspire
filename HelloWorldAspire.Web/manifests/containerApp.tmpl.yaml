@@ -44,4 +44,3 @@ properties:
 tags:
   azd-service-name: webfrontend
   aspire-resource-name: webfrontend
-  test: working
