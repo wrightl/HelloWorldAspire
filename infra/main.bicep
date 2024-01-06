@@ -17,6 +17,10 @@ var tags = {
   'azd-env-name': environmentName
 }
 
+var abbrs = {
+  managedIdentityUserAssignedIdentities: 'id-'
+}
+
 var resourceToken = toLower(uniqueString(subscription().id, environmentName, location))
 
 resource rg 'Microsoft.Resources/resourceGroups@2022-09-01' = {
@@ -36,6 +40,16 @@ module serviceBusResources './app/servicebus.bicep' = {
   }
 }
 
+module serviceBusAccess './app/access.bicep' = {
+  name: 'sb-access'
+  scope: rg
+  params: {
+    location: location
+    serviceBusName: serviceBusResources.outputs.serviceBusName
+    managedIdentityName: '${abbrs.managedIdentityUserAssignedIdentities}${resourceToken}'
+  }
+}
+
 module resources 'resources.bicep' = {
   scope: rg
   name: 'resources'
@@ -43,6 +57,9 @@ module resources 'resources.bicep' = {
     location: location
     tags: tags
     inputs: inputs
+    daprEnabled: true
+    serviceBusName: serviceBusResources.outputs.serviceBusName
+    managedIdentityClientId: serviceBusAccess.outputs.managedIdentityClientlId
   }
 }
 

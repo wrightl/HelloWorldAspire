@@ -10,7 +10,8 @@ param inputs object
 
 param daprEnabled bool = false
 param applicationInsightsName string = ''
-
+param managedIdentityClientId string = ''
+param serviceBusName string
 
 var resourceToken = uniqueString(resourceGroup().id)
 
@@ -71,6 +72,33 @@ resource containerAppEnvironment 'Microsoft.App/managedEnvironments@2023-05-01' 
 
 resource applicationInsights 'Microsoft.Insights/components@2020-02-02' existing = if (daprEnabled && !empty(applicationInsightsName)){
   name: applicationInsightsName
+}
+
+resource daprComponentPubsub 'Microsoft.App/managedEnvironments/daprComponents@2023-08-01-preview' = {
+  parent: containerAppEnvironment
+  name: 'orderpubsub'
+  properties: {
+    componentType: 'pubsub.azure.servicebus'
+    version: 'v1'
+    metadata: [
+      {
+        name: 'azureClientId'
+        value: managedIdentityClientId  // See https://docs.dapr.io/developing-applications/integrations/azure/authenticating-azure/#credentials-metadata-fields for MSI
+      }
+      {
+        name: 'namespaceName' // See https://docs.dapr.io/reference/components-reference/supported-pubsub/setup-azure-servicebus-topics/#spec-metadata-fields
+        value: '${serviceBusName}.servicebus.windows.net' // the .servicebus.windows.net suffix is required as per dapr docs
+      }
+      {
+        name: 'consumerID'
+        value: 'orders' // Set to the same value of the subscription seen in ./servicebus.bicep
+      }
+    ]
+    scopes: []
+  }
+  // dependsOn: [
+  //   containerAppEnvironment
+  // ]
 }
 
 resource cache 'Microsoft.App/containerApps@2023-05-02-preview' = {
