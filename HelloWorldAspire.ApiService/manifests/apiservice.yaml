@@ -33,7 +33,7 @@ properties:
       - name: OTEL_DOTNET_EXPERIMENTAL_OTLP_EMIT_EXCEPTION_LOG_ATTRIBUTES
         value: "true"
     scale:
-      minReplicas: 0
+      minReplicas: 2
       maxReplicas: 3
 tags:
   azd-service-name: apiservice
