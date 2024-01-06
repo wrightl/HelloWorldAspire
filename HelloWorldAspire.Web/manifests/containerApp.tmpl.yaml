@@ -34,7 +34,8 @@ properties:
       - name: services__apiservice__1
         value: https://apiservice.internal.{{ .Env.AZURE_CONTAINER_APPS_ENVIRONMENT_DEFAULT_DOMAIN }}
     scale:
-      minReplicas: 1
+      minReplicas: 0
+      maxReplicas:
 tags:
   azd-service-name: webfrontend
   aspire-resource-name: webfrontend
