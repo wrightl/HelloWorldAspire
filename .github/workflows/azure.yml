@@ -6,6 +6,9 @@ on:
         branches:
             - master
 
+env:
+    AZURE_ENV_NAME: aspire
+
 # GitHub Actions workflow to deploy to Azure using azd
 # To configure required secrets for connecting to Azure, simply run `azd pipeline config`
 
@@ -61,13 +64,13 @@ jobs:
             - name: Provision Infrastructure
               run: azd provision --no-prompt
               env:
-                  AZURE_ENV_NAME: ${{ vars.AZURE_ENV_NAME }}
+                  AZURE_ENV_NAME: ${{ env.AZURE_ENV_NAME }}
                   AZURE_LOCATION: ${{ vars.AZURE_LOCATION }}
                   AZURE_SUBSCRIPTION_ID: ${{ vars.AZURE_SUBSCRIPTION_ID }}
 
             - name: Deploy Application
               run: azd deploy --no-prompt --debug
               env:
-                  AZURE_ENV_NAME: ${{ vars.AZURE_ENV_NAME }}
+                  AZURE_ENV_NAME: ${{ env.AZURE_ENV_NAME }}
                   AZURE_LOCATION: ${{ vars.AZURE_LOCATION }}
                   AZURE_SUBSCRIPTION_ID: ${{ vars.AZURE_SUBSCRIPTION_ID }}
