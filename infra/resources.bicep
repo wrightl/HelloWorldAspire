@@ -8,6 +8,10 @@ param tags object = {}
 @metadata({azd: {type: 'inputs' }})
 param inputs object
 
+param daprEnabled bool = false
+param applicationInsightsName string = ''
+
+
 var resourceToken = uniqueString(resourceGroup().id)
 
 resource managedIdentity 'Microsoft.ManagedIdentity/userAssignedIdentities@2023-01-31' = {
@@ -60,8 +64,13 @@ resource containerAppEnvironment 'Microsoft.App/managedEnvironments@2023-05-01' 
         sharedKey: logAnalyticsWorkspace.listKeys().primarySharedKey
       }
     }
+    daprAIInstrumentationKey: daprEnabled && !empty(applicationInsightsName) ? applicationInsights.properties.InstrumentationKey : ''
   }
   tags: tags
+}
+
+resource applicationInsights 'Microsoft.Insights/components@2020-02-02' existing = if (daprEnabled && !empty(applicationInsightsName)){
+  name: applicationInsightsName
 }
 
 resource cache 'Microsoft.App/containerApps@2023-05-02-preview' = {
