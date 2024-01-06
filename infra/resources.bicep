@@ -76,7 +76,7 @@ resource applicationInsights 'Microsoft.Insights/components@2020-02-02' existing
 
 resource daprComponentPubsub 'Microsoft.App/managedEnvironments/daprComponents@2023-08-01-preview' = {
   parent: containerAppEnvironment
-  name: 'orderpubsub'
+  name: 'helloworldaspirepubsub'
   properties: {
     componentType: 'pubsub.azure.servicebus'
     version: 'v1'
@@ -91,7 +91,7 @@ resource daprComponentPubsub 'Microsoft.App/managedEnvironments/daprComponents@2
       }
       {
         name: 'consumerID'
-        value: 'orders' // Set to the same value of the subscription seen in ./servicebus.bicep
+        value: 'helloworldaspiretest' // Set to the same value of the subscription seen in ./servicebus.bicep
       }
     ]
     scopes: []
