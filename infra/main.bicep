@@ -17,10 +17,23 @@ var tags = {
   'azd-env-name': environmentName
 }
 
+var resourceToken = toLower(uniqueString(subscription().id, environmentName, location))
+
 resource rg 'Microsoft.Resources/resourceGroups@2022-09-01' = {
   name: 'rg-${environmentName}'
   location: location
   tags: tags
+}
+
+module serviceBusResources './app/servicebus.bicep' = {
+  name: 'sb-resources'
+  scope: rg
+  params: {
+    location: location
+    tags: tags
+    resourceToken: resourceToken
+    skuName: 'Standard'
+  }
 }
 
 module resources 'resources.bicep' = {
