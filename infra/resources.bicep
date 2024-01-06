@@ -93,7 +93,7 @@ resource messaging 'Microsoft.App/containerApps@2023-05-02-preview' = {
     environmentId: containerAppEnvironment.id
     configuration: {
       service: {
-        type: 'rabbitmq.server'
+        type: 'rabbitmq'
       }
     }
     template: {
