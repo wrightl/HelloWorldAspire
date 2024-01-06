@@ -12,7 +12,7 @@ properties:
       enabled: true
       appId: apiservice
       appProtocol: http
-        appPort: 8080
+      appPort: 8080
     ingress:
       external: false
       targetPort: 8080
