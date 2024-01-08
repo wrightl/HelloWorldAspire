@@ -7,6 +7,6 @@ public class AspireApiTests
     [Fact]
     public void CanDoSomething()
     {
-        Assert.Equal(1, 1);
+        Assert.Equal(1, 2);
     }
 }
