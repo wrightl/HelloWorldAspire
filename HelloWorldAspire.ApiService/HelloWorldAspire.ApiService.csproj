@@ -11,4 +11,9 @@
     <ProjectReference Include="..\HelloWorldAspire.ServiceDefaults\HelloWorldAspire.ServiceDefaults.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <!-- <Using Include="TodoApi" /> -->
+    <InternalsVisibleTo Include="HelloWorldAspire.Tests" />
+  </ItemGroup>
+
 </Project>
