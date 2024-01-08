@@ -11,6 +11,11 @@ jobs:
 
     - name: Setup .NET SDK
       uses: actions/setup-dotnet@v3
+
+    - name: Install Aspire workload
+      run: |
+          dotnet workload install aspire
+      shell: pwsh
  
     - name: dotnet build
       run: dotnet build HelloWorldAspire.sln -c Release
